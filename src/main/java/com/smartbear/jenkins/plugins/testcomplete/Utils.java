@@ -29,15 +29,13 @@ import hudson.model.Computer;
 import hudson.model.TaskListener;
 import hudson.remoting.Callable;
 import hudson.remoting.VirtualChannel;
-import java.io.Serial;
-import java.nio.charset.StandardCharsets;
 import jenkins.model.Jenkins;
 import org.jenkinsci.remoting.RoleChecker;
 
 import javax.crypto.Cipher;
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
+import java.io.Serial;
 import java.lang.ref.WeakReference;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.security.KeyFactory;
 import java.security.interfaces.RSAPublicKey;
@@ -46,14 +44,16 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.Semaphore;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
 
 public class Utils {
 
     private static final String PUBLIC_KEY =
-        "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDCD43scUktBOFoR10dS80DbFJf" +
-        "MgJoyNGtfxVyQ6DKwmzb1OS+P3E5Y47K3G6fXX8OfhT0WmQ/Aqr61nUXxRgn2cFH" +
-        "Kyc4rjFjfMTkPGkv7rWdIuu+4VR9PYEXar4OyCQEThfhdDSPzfHJ8oiPNqkXe5IY" +
-        "L1xQevURO0+Sapzf7wIDAQAB";
+            "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDCD43scUktBOFoR10dS80DbFJf" +
+                    "MgJoyNGtfxVyQ6DKwmzb1OS+P3E5Y47K3G6fXX8OfhT0WmQ/Aqr61nUXxRgn2cFH" +
+                    "Kyc4rjFjfMTkPGkv7rWdIuu+4VR9PYEXar4OyCQEThfhdDSPzfHJ8oiPNqkXe5IY" +
+                    "L1xQevURO0+Sapzf7wIDAQAB";
 
     private static final int ENC_CHUNK_MAX_SIZE = 116;
 
@@ -160,8 +160,8 @@ public class Utils {
         try {
             return channel.call(new Callable<Integer, Exception>() {
 
-                 @Serial
-                 private static final long serialVersionUID = 1585057738074873637L;
+                @Serial
+                private static final long serialVersionUID = 1585057738074873637L;
 
                 @Override
                 public void checkRoles(RoleChecker roleChecker) throws SecurityException {
@@ -191,8 +191,7 @@ public class Utils {
         return OLEDateToMillis(dateToConvert);
     }
 
-    private static long OLEDateToMillis(double dSerialDate)
-    {
+    private static long OLEDateToMillis(double dSerialDate) {
         return (long) ((dSerialDate - 25569) * 24 * 3600 * 1000);
     }
 
@@ -233,16 +232,16 @@ public class Utils {
 
         int totalLength = 0;
 
-      for (byte[] resultDatum : resultData) {
-        totalLength += resultDatum.length;
-      }
+        for (byte[] resultDatum : resultData) {
+            totalLength += resultDatum.length;
+        }
 
         byte[] result = new byte[totalLength];
         int position = 0;
-      for (byte[] current : resultData) {
-        System.arraycopy(current, 0, result, position, current.length);
-        position += current.length;
-      }
+        for (byte[] current : resultData) {
+            System.arraycopy(current, 0, result, position, current.length);
+            position += current.length;
+        }
 
         return result;
     }
@@ -303,7 +302,7 @@ public class Utils {
         public void release(Computer computer) throws InterruptedException {
             Semaphore semaphore = null;
             synchronized (this) {
-                for (Entry<WeakReference<Computer>,Semaphore> computerRef : computerLocks.entrySet()) {
+                for (Entry<WeakReference<Computer>, Semaphore> computerRef : computerLocks.entrySet()) {
                     Computer actualComputer = computerRef.getKey().get();
                     if (actualComputer != null && actualComputer == computer) {
                         semaphore = computerRef.getValue();

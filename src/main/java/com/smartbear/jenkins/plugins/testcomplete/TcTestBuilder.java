@@ -45,7 +45,7 @@ import hudson.util.ArgumentListBuilder;
 import hudson.util.FormValidation;
 import hudson.util.ListBoxModel;
 import hudson.util.Secret;
-import java.nio.charset.StandardCharsets;
+import jakarta.annotation.Nonnull;
 import jenkins.model.Jenkins;
 import jenkins.tasks.SimpleBuildStep;
 import net.sf.json.JSONObject;
@@ -55,14 +55,10 @@ import org.jenkinsci.Symbol;
 import org.jenkinsci.plugins.plaincredentials.StringCredentials;
 import org.kohsuke.stapler.*;
 
-import jakarta.annotation.Nonnull;
 import java.io.*;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -722,8 +718,7 @@ public class TcTestBuilder extends Builder implements Serializable, SimpleBuildS
         } else if (useSessionCreator) {
             try {
                 args = prepareSessionCreatorCommandLine(listener, chosenInstallation, args, env);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 TcLog.printStackTrace(listener, e);
                 TcLog.info(listener, Messages.TcTestBuilder_MarkingBuildAsFailed());
                 run.setResult(Result.FAILURE);
@@ -750,8 +745,7 @@ public class TcTestBuilder extends Builder implements Serializable, SimpleBuildS
                 , node.getDisplayName()))
             .orElse(null);
 
-        if(tcReportAction == null)
-        {
+        if (tcReportAction == null) {
             run.setResult(Result.FAILURE);
             return;
         }
@@ -1128,8 +1122,7 @@ public class TcTestBuilder extends Builder implements Serializable, SimpleBuildS
                     workspace.getSlaveLogXFilePath().delete();
                 }
             }
-        }
-        else {
+        } else {
             TcLog.error(listener, Messages.TcTestBuilder_UnableToFindLogFile(),
                     workspace.getSlaveLogXFilePath().getName());
             run.setResult(Result.FAILURE);
@@ -1400,7 +1393,8 @@ public class TcTestBuilder extends Builder implements Serializable, SimpleBuildS
         return (DescriptorImpl)super.getDescriptor();
     }
 
-    @Extension @Symbol("testcompletetest")
+    @Extension
+    @Symbol("testcompletetest")
     public static final class DescriptorImpl extends BuildStepDescriptor<Builder> {
 
         public DescriptorImpl() {
