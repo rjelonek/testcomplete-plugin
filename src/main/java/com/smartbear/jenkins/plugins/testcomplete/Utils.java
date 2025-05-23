@@ -29,6 +29,8 @@ import hudson.model.Computer;
 import hudson.model.TaskListener;
 import hudson.remoting.Callable;
 import hudson.remoting.VirtualChannel;
+import java.io.Serial;
+import java.nio.charset.StandardCharsets;
 import jenkins.model.Jenkins;
 import org.jenkinsci.remoting.RoleChecker;
 
@@ -72,6 +74,7 @@ public class Utils {
         try {
             return channel.call(new Callable<Boolean, Exception>() {
 
+                @Serial
                 private static final long serialVersionUID = -6109926297806624006L;
 
                 @Override
@@ -98,6 +101,7 @@ public class Utils {
         try {
             return channel.call(new Callable<Boolean, Exception>() {
 
+                @Serial
                 private static final long serialVersionUID = -7887444820720775808L;
 
                 @Override
@@ -133,6 +137,7 @@ public class Utils {
         try {
             return channel.call(new Callable<Long, Exception>() {
 
+                @Serial
                 private static final long serialVersionUID = -8337586169108934130L;
 
                 @Override
@@ -155,6 +160,7 @@ public class Utils {
         try {
             return channel.call(new Callable<Integer, Exception>() {
 
+                 @Serial
                  private static final long serialVersionUID = 1585057738074873637L;
 
                 @Override
@@ -212,7 +218,7 @@ public class Utils {
 
         Cipher rsa = Cipher.getInstance("RSA");
         rsa.init(Cipher.ENCRYPT_MODE, publicKey);
-        byte dataRaw[] = data.getBytes("UTF-16LE");
+        byte[] dataRaw = data.getBytes(StandardCharsets.UTF_16LE);
 
         int chunksCount = dataRaw.length / ENC_CHUNK_MAX_SIZE +
                 ((dataRaw.length % ENC_CHUNK_MAX_SIZE) > 0 ? 1 : 0);
@@ -227,17 +233,16 @@ public class Utils {
 
         int totalLength = 0;
 
-        for (int i = 0; i < resultData.size(); i++) {
-            totalLength += resultData.get(i).length;
-        }
+      for (byte[] resultDatum : resultData) {
+        totalLength += resultDatum.length;
+      }
 
         byte[] result = new byte[totalLength];
         int position = 0;
-        for (int i = 0; i < resultData.size(); i++) {
-            byte[] current = resultData.get(i);
-            System.arraycopy(current, 0, result, position, current.length);
-            position += current.length;
-        }
+      for (byte[] current : resultData) {
+        System.arraycopy(current, 0, result, position, current.length);
+        position += current.length;
+      }
 
         return result;
     }
