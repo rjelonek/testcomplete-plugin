@@ -39,9 +39,10 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.zip.ZipFile;
 
@@ -286,9 +287,7 @@ public class LogParser implements ILogParser {
         long stopDate = Utils.safeConvertDate(LogNodeUtils.getTextProperty(rootOwnerNodeInfoSummary, "stop date"));
         long projectDuration = stopDate - startDate > 0 ? stopDate - startDate : 0;
         String projectName = LogNodeUtils.getTextProperty(rootOwnerNodeInfoSummary, "test");
-        Calendar cal = new GregorianCalendar();
-        cal.setTimeInMillis(startDate);
-        String timestamp = Utils.printDateTime(cal);
+        String timestamp = Instant.ofEpochMilli(startDate).atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 
         String rootOwnerNodeFileName = LogNodeUtils.getTextProperty(rootOwnerNode, "filename");
         if (rootOwnerNodeFileName == null || rootOwnerNodeFileName.isEmpty()) {

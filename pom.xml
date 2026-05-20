@@ -3,14 +3,15 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>5.18</version>
+    <version>6.2153.vcf31911d10c4</version>
     <relativePath />
   </parent>
 
   <properties>
     <!-- https://www.jenkins.io/doc/developer/plugin-development/choosing-jenkins-baseline/ -->
-    <jenkins.baseline>2.492</jenkins.baseline>
+    <jenkins.baseline>2.504</jenkins.baseline>
     <jenkins.version>${jenkins.baseline}.3</jenkins.version>
+    <maven.compiler.release>21</maven.compiler.release>
   </properties>
 
   <artifactId>TestComplete</artifactId>
@@ -61,7 +62,7 @@
           <dependency>
               <groupId>io.jenkins.tools.bom</groupId>
               <artifactId>bom-${jenkins.baseline}.x</artifactId>
-              <version>4770.v9a_2b_7a_9d8b_7f</version>
+              <version>5701.va_b_018a_a_6b_0d3</version>
               <scope>import</scope>
               <type>pom</type>
           </dependency>

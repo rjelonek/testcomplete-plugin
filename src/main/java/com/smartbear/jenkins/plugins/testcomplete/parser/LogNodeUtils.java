@@ -34,6 +34,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -410,9 +413,7 @@ class LogNodeUtils {
 
     public static String startTimeToTimestamp(String startTime) {
         long startDate = Utils.safeConvertDate(startTime);
-        Calendar cal = new GregorianCalendar();
-        cal.setTimeInMillis(startDate);
-        return Utils.printDateTime(cal);
+        return Instant.ofEpochMilli(startDate).atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
     }
 
 }
